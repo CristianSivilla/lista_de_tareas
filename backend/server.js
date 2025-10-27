@@ -27,15 +27,20 @@ app.post("/api/tareas", async (req, res) => {
 });
 
 app.delete("/api/tareas/:id", async (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
     console.log("id:", id);
 
     try {
-        await Tarea.findByIdAndDelete(id);
-        res.status(200).json({succes: true, message: "Product deleted"});
+        const deleted = await Tarea.findByIdAndDelete(id);
 
-    } catch (error){
-        console.log("no se ha podido eliminar la tarea", error)
+        if (!deleted) {
+            return res.status(404).json({ success: false, message: "Tarea no encontrada" });
+        }
+
+        res.status(200).json({ success: true, message: "Tarea eliminada correctamente" });
+    } catch (error) {
+        console.error("No se ha podido eliminar la tarea:", error);
+        res.status(500).json({ success: false, message: "Error al eliminar la tarea" });
     }
 });
 
