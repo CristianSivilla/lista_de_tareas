@@ -26,6 +26,19 @@ app.post("/api/tareas", async (req, res) => {
   }
 });
 
+app.delete("/api/tareas/:id", async (req, res) => {
+    const {id} = req.params;
+    console.log("id:", id);
+
+    try {
+        await Tarea.findByIdAndDelete(id);
+        res.status(200).json({succes: true, message: "Product deleted"});
+
+    } catch (error){
+        console.log("no se ha podido eliminar la tarea", error)
+    }
+});
+
 app.listen(5000, () => {
   connectDB();
   console.log('Servidor iniciado en http://localhost:5000');
