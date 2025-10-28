@@ -8,6 +8,16 @@ dotenv.config();
 const app = express();
 app.use(express.json()); 
 
+app.get("/api/tareas", async(req, res) =>{
+  try{
+    const tareas = await Tarea.find({});
+    res.status(200).json({success:true, data:tareas})
+  }catch(error) {
+    console.log("Error al mostrar los productos", error.message);
+    res.status(500).json({success: false, message: "Server Error"});
+  }
+
+});
 app.post("/api/tareas", async (req, res) => {
   const tarea = req.body;
 
@@ -25,6 +35,20 @@ app.post("/api/tareas", async (req, res) => {
     res.status(500).json({ success: false, message: "Server Error" });
   }
 });
+
+app.put("/api/tareas/:id", async (req, res) => {
+  const {id} = req.params;
+  const tarea = req.body;
+  
+  try{
+   const tareActulizada = await Tarea.findByIdAndUpdate(id, tarea, {new: true});
+   res.status(200).json({succes:true, data: tareActulizada});
+  }catch(error){
+  res.status(500).json({succes: false, message: "Server Error"});
+
+  }
+
+})
 
 app.delete("/api/tareas/:id", async (req, res) => {
     const { id } = req.params;
