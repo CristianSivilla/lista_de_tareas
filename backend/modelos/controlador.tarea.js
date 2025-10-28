@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import Tarea from '../modelos/tarea.model.js';
 
 
@@ -49,6 +50,9 @@ export const  delTarea = async (req, res) => {
     const { id } = req.params;
     console.log("id:", id);
 
+    if(!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({succes:false, message:"Id no valido"});
+    }
     try {
         const deleted = await Tarea.findByIdAndDelete(id);
 
