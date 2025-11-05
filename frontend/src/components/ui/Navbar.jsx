@@ -16,7 +16,7 @@ const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode()
 
   return (
-    <Container maxW="1140px" px={4} bg= {useColorModeValue("gray.100","gray.900")} >
+    <Container maxW="1140px" px={4} >
       <Flex
         h={16}
         alignItems="center"
@@ -29,7 +29,7 @@ const Navbar = () => {
           fontSize='22'
           fontWeight='extrabold'
         >
-          Welcome to Chakra UI
+          Planificador de Tareas
         </Text>
 
         <HStack spacing={2} alignItems="center">
