@@ -1,4 +1,4 @@
-import { Container, VStack, Text } from '@chakra-ui/react'
+import { Container, VStack, Text, SimpleGrid } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import React from 'react'
 
@@ -13,9 +13,22 @@ const Inicio = () => {
           bgClip={"text"}
           textAlign={"center"}
         >
-
           Lista de Tareas Pendientes
         </Text>
+        <SimpleGrid
+        columns={{
+          base: 1,
+          md: 2,
+          lg: 3
+        }}
+
+        spacing={10}
+        w={'full'}
+
+        >
+
+
+        </SimpleGrid>
 
         <Text fontSize='xl' textAlign={"center"} fontWeight="bold" color="gray.500">
           No hay ninguna tarea pendiente{" "}
