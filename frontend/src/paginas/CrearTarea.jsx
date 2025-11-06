@@ -1,21 +1,58 @@
-import { Heading, VStack, Container, useColorModeValue, Input, Box, Button, Switch, FormControl, FormLabel } from '@chakra-ui/react'
-import React, { useState } from 'react'
-import { usarAlmacenadoTareas } from '../../almacenado/tarea'
+import {
+  Heading,
+  VStack,
+  Container,
+  useColorModeValue,
+  Input,
+  Box,
+  Button,
+  Switch,
+  FormControl,
+  FormLabel,
+  useToast
+} from "@chakra-ui/react";
+import React, { useState } from "react";
+import { usarAlmacenadoTareas } from "../../almacenado/tarea";
 
 const CrearTarea = () => {
   const [nuevaTarea, setNuevaTarea] = useState({
-  nombre: "",
-  descripcion: "",
-  completado: false,
-  imagen: "",
-})
+    nombre: "",
+    descripcion: "",
+    completado: false,
+    imagen: "",
+  });
 
-  const {crearTarea} = usarAlmacenadoTareas();
-  const handleNuevaTarea = async() => {
-    const {success, message} = await crearTarea(nuevaTarea);
-    console.log("Succes:", success)
-    console.log("Message:", message)
-  }
+  const toast = useToast(); // ✅ usamos useToast correctamente
+  const { crearTarea } = usarAlmacenadoTareas();
+
+  const handleNuevaTarea = async () => {
+    const { success, message } = await crearTarea(nuevaTarea);
+
+    if (!success) {
+      toast({
+        title: "Error",
+        description: message,
+        status: "error",
+        duration: 6000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Éxito",
+        description: message,
+        status: "success",
+        duration: 6000,
+        isClosable: true,
+      });
+    }
+
+    setNuevaTarea({
+      nombre: "",
+      descripcion: "",
+      completado: false,
+      imagen: "",
+    });
+  };
 
   return (
     <Container maxW={"container.sm"}>
@@ -33,48 +70,57 @@ const CrearTarea = () => {
         >
           <VStack spacing={4}>
             <Input
-              placeholder='Nombre de la Tarea'
-              name='nombre'
+              placeholder="Nombre de la Tarea"
+              name="nombre"
               value={nuevaTarea.nombre}
-              onChange={(e) => setNuevaTarea({ ...nuevaTarea, nombre: e.target.value })}
+              onChange={(e) =>
+                setNuevaTarea({ ...nuevaTarea, nombre: e.target.value })
+              }
             />
 
             <Input
-              placeholder='Descripción de la tarea'
-              name='descripcion'
+              placeholder="Descripción de la tarea"
+              name="descripcion"
               value={nuevaTarea.descripcion}
-              onChange={(e) => setNuevaTarea({ ...nuevaTarea, descripcion: e.target.value })}
+              onChange={(e) =>
+                setNuevaTarea({ ...nuevaTarea, descripcion: e.target.value })
+              }
             />
 
             <FormControl display="flex" alignItems="center">
-              <FormLabel htmlFor='completado' mb='0'>
+              <FormLabel htmlFor="completado" mb="0">
                 ¿Finalizada?
               </FormLabel>
               <Switch
-                id='completado'
-                colorScheme='green'
+                id="completado"
+                colorScheme="green"
                 isChecked={nuevaTarea.completado}
                 onChange={(e) =>
-                  setNuevaTarea({ ...nuevaTarea, completado: e.target.checked })
+                  setNuevaTarea({
+                    ...nuevaTarea,
+                    completado: e.target.checked,
+                  })
                 }
               />
             </FormControl>
 
             <Input
-              placeholder='Imagen URL'
-              name='imagen'
+              placeholder="Imagen URL"
+              name="imagen"
               value={nuevaTarea.imagen}
-              onChange={(e) => setNuevaTarea({ ...nuevaTarea, imagen: e.target.value })}
+              onChange={(e) =>
+                setNuevaTarea({ ...nuevaTarea, imagen: e.target.value })
+              }
             />
 
-            <Button colorScheme='blue' onClick={handleNuevaTarea} w='full'>
+            <Button colorScheme="blue" onClick={handleNuevaTarea} w="full">
               Guardar
             </Button>
           </VStack>
         </Box>
       </VStack>
     </Container>
-  )
-}
+  );
+};
 
-export default CrearTarea
+export default CrearTarea;
