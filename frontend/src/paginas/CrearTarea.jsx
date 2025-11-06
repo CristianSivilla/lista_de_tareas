@@ -1,15 +1,20 @@
 import { Heading, VStack, Container, useColorModeValue, Input, Box, Button, Switch, FormControl, FormLabel } from '@chakra-ui/react'
 import React, { useState } from 'react'
+import { usarAlmacenadoTareas } from '../../almacenado/tarea'
 
 const CrearTarea = () => {
   const [nuevaTarea, setNuevaTarea] = useState({
-    nombre: "",
-    descripcion: "",
-    completado: false,
-  })
+  nombre: "",
+  descripcion: "",
+  completado: false,
+  imagen: "",
+})
 
-  const handleNuevaTarea = () => {
-    console.log(nuevaTarea)
+  const {crearTarea} = usarAlmacenadoTareas();
+  const handleNuevaTarea = async() => {
+    const {success, message} = await crearTarea(nuevaTarea);
+    console.log("Succes:", success)
+    console.log("Message:", message)
   }
 
   return (

@@ -6,11 +6,11 @@ import {
   Text,
   HStack,
   useColorMode
-} from '@chakra-ui/react'
-import { PlusSquareIcon } from "@chakra-ui/icons"
-import { Link } from 'react-router-dom'
-import { IoMoon } from "react-icons/io5"
-import { LuSun } from "react-icons/lu"
+} from '@chakra-ui/react';
+import { PlusSquareIcon } from "@chakra-ui/icons";
+import { Link } from 'react-router-dom';
+import { IoMoon } from "react-icons/io5";
+import { LuSun } from "react-icons/lu";
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode()
