@@ -22,7 +22,7 @@ const CrearTarea = () => {
     imagen: "",
   });
 
-  const toast = useToast(); // ✅ usamos useToast correctamente
+  const toast = useToast(); 
   const { crearTarea } = usarAlmacenadoTareas();
 
   const handleNuevaTarea = async () => {
