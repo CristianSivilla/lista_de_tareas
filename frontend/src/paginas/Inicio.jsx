@@ -1,8 +1,14 @@
 import { Container, VStack, Text, SimpleGrid } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
-import React from 'react'
-
+import React, { useEffect } from 'react' 
+import { usarAlmacenadoTareas } from '../../almacenado/tarea'
+import TareaCard from '../components/TareaCard'
 const Inicio = () => {
+  const {fetchTareas, tareas} = usarAlmacenadoTareas();
+  useEffect(() => {
+    fetchTareas();
+  }, [fetchTareas]);
+  console.log("tareas", tareas);
   return (
     <Container maxW='container.xl' py={12}>
       <VStack spacing={8}>
@@ -26,6 +32,11 @@ const Inicio = () => {
         w={'full'}
 
         >
+          {tareas.map((tarea) => (
+            <TareaCard key={tarea._id} tarea={tarea}>
+
+            </TareaCard>
+          ))}
 
 
         </SimpleGrid>

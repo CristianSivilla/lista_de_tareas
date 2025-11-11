@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const tareaSchema = new mongoose.Schema({
-    nombre:{
+    nombre: {
         type: String,
         required: true
     },
@@ -14,10 +14,13 @@ const tareaSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-},{
+    imagen: {
+        type: String,
+        default: "", 
+    }
+}, {
     timestamps: true
-}
-)
+});
 
 const Tarea = mongoose.model('Tarea', tareaSchema);
 

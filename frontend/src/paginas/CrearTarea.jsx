@@ -1,126 +1,53 @@
-import {
-  Heading,
-  VStack,
-  Container,
-  useColorModeValue,
-  Input,
-  Box,
-  Button,
-  Switch,
-  FormControl,
-  FormLabel,
-  useToast
-} from "@chakra-ui/react";
-import React, { useState } from "react";
-import { usarAlmacenadoTareas } from "../../almacenado/tarea";
+import React from 'react'
+import { Box, Image, Heading, Text, Switch, useColorModeValue, IconButton } from '@chakra-ui/react'
+import { EditIcon } from '@chakra-ui/icons'
+import { DeleteIcon } from '@chakra-ui/icons'
 
-const CrearTarea = () => {
-  const [nuevaTarea, setNuevaTarea] = useState({
-    nombre: "",
-    descripcion: "",
-    completado: false,
-    imagen: "",
-  });
 
-  const toast = useToast(); 
-  const { crearTarea } = usarAlmacenadoTareas();
-
-  const handleNuevaTarea = async () => {
-    const { success, message } = await crearTarea(nuevaTarea);
-
-    if (!success) {
-      toast({
-        title: "Error",
-        description: message,
-        status: "error",
-        duration: 6000,
-        isClosable: true,
-      });
-    } else {
-      toast({
-        title: "Éxito",
-        description: message,
-        status: "success",
-        duration: 6000,
-        isClosable: true,
-      });
-    }
-
-    setNuevaTarea({
-      nombre: "",
-      descripcion: "",
-      completado: false,
-      imagen: "",
-    });
-  };
+const TareaCard = ({ tarea }) => {
+  const textColor = useColorModeValue("gray.800", "white")
 
   return (
-    <Container maxW={"container.sm"}>
-      <VStack spacing={8}>
-        <Heading as="h1" size="2xl" textAlign="center" mb={8}>
-          Crear Nueva Tarea
+    <Box
+      shadow="lg"
+      rounded="lg"
+      overflow="hidden"
+      transition="all 0.3s"
+      _hover={{
+        transform: "translateY(-5px)",
+        boxShadow: "xl"
+      }}
+    >
+      <Image 
+        src={tarea.imagen} 
+        alt={tarea.nombre} 
+        h={48} 
+        w="full" 
+        objectFit="cover" 
+      />
+
+      <Box p={4}>
+        <Heading as="h3" size="md" mb={2}>
+          {tarea.nombre}
         </Heading>
 
-        <Box
-          w={"full"}
-          bg={useColorModeValue("white", "gray.800")}
-          p={6}
-          rounded={"lg"}
-          shadow={"md"}
-        >
-          <VStack spacing={4}>
-            <Input
-              placeholder="Nombre de la Tarea"
-              name="nombre"
-              value={nuevaTarea.nombre}
-              onChange={(e) =>
-                setNuevaTarea({ ...nuevaTarea, nombre: e.target.value })
-              }
-            />
+        <Text fontWeight="bold" fontSize="md" color={textColor} mb={4}>
+          {tarea.descripcion}
+        </Text>
 
-            <Input
-              placeholder="Descripción de la tarea"
-              name="descripcion"
-              value={nuevaTarea.descripcion}
-              onChange={(e) =>
-                setNuevaTarea({ ...nuevaTarea, descripcion: e.target.value })
-              }
-            />
-
-            <FormControl display="flex" alignItems="center">
-              <FormLabel htmlFor="completado" mb="0">
-                ¿Finalizada?
-              </FormLabel>
-              <Switch
-                id="completado"
-                colorScheme="green"
-                isChecked={nuevaTarea.completado}
-                onChange={(e) =>
-                  setNuevaTarea({
-                    ...nuevaTarea,
-                    completado: e.target.checked,
-                  })
-                }
-              />
-            </FormControl>
-
-            <Input
-              placeholder="Imagen URL"
-              name="imagen"
-              value={nuevaTarea.imagen}
-              onChange={(e) =>
-                setNuevaTarea({ ...nuevaTarea, imagen: e.target.value })
-              }
-            />
-
-            <Button colorScheme="blue" onClick={handleNuevaTarea} w="full">
-              Guardar
-            </Button>
-          </VStack>
+        <Box display="flex" alignItems="center" mt={2}>
+          <Text mr={2}>Completada:</Text>
+          <Switch 
+            colorScheme="green" 
+            isChecked={tarea.completado} 
+            isReadOnly 
+          />
         </Box>
-      </VStack>
-    </Container>
-  );
-};
+        <IconButton icon={<EditIcon/>} colorScheme='blue'/>
+        <IconButton icon={<DeleteIcon/>} colorScheme='blue'/>
+      </Box>
+    </Box>
+  )
+}
 
-export default CrearTarea;
+export default TareaCard
